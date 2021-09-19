@@ -7,7 +7,7 @@
 #include "howToPlay.h"
 
 
-void runGame()
+int runGame()
 {
 	Screen screen;
 
@@ -30,7 +30,7 @@ void runGame()
 			credits(screen);
 			break;
 		case Screen::close:
-			WindowShouldClose();
+			return 0;
 		default:
 			break;
 		}

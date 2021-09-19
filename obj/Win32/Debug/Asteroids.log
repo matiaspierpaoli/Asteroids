@@ -1,14 +1,7 @@
-﻿  credits.cpp
-  game.cpp
-  howToPlay.cpp
-  initGame.cpp
-  menu.cpp
-E:\Users\Matias\Documents\Image Campus\Segundo Cuatrimestre\Practica Profesional I Desarrollo de Videojuegos I\Asteroids_Pierpaoli_Matias_TSDV_TM\Asteroids\menu.cpp(8,35): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-E:\Users\Matias\Documents\Image Campus\Segundo Cuatrimestre\Practica Profesional I Desarrollo de Videojuegos I\Asteroids_Pierpaoli_Matias_TSDV_TM\Asteroids\menu.cpp(14,38): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-E:\Users\Matias\Documents\Image Campus\Segundo Cuatrimestre\Practica Profesional I Desarrollo de Videojuegos I\Asteroids_Pierpaoli_Matias_TSDV_TM\Asteroids\menu.cpp(20,42): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
-E:\Users\Matias\Documents\Image Campus\Segundo Cuatrimestre\Practica Profesional I Desarrollo de Videojuegos I\Asteroids_Pierpaoli_Matias_TSDV_TM\Asteroids\menu.cpp(26,40): warning C4244: '=': conversión de 'int' a 'float'; posible pérdida de datos
+﻿  main.cpp
   runGame.cpp
   Generando código...
+E:\Users\Matias\Documents\Image Campus\Segundo Cuatrimestre\Practica Profesional I Desarrollo de Videojuegos I\Asteroids_Pierpaoli_Matias_TSDV_TM\Asteroids\runGame.cpp(39): warning C4715: 'runGame': no todas las rutas de acceso de control devuelven un valor
   raylib.lib(core.obj) : se encontró .netmodule MSIL o un módulo compilado con /GL; reiniciando la vinculación con /LTCG; agregue /LTCG a la línea de comandos de vínculo para mejorar el rendimiento del vinculador
 LINK : warning LNK4075: se omite '/INCREMENTAL' debido a la especificación '/LTCG'
 LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
