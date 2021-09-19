@@ -28,9 +28,9 @@ void initGame(Screen& screen)
 	float velX;
 	float velY;
 
-	int smallMeteorCounter;
-	int mediumMeteorCounter;
-	int bigMeteorCounter;
+	int smallMeteorCounter = 0;
+	int mediumMeteorCounter = 0;
+	int bigMeteorCounter = 0;
 
 	const float meteorsSpeed = 2.0f;
 

@@ -2,7 +2,7 @@
 #include "player.h"
 #include "meteors.h"
 
-void resetGame(Player* player, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
+void resetGame()
 {
 
 

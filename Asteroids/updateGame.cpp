@@ -3,8 +3,9 @@
 #include "player.h"
 #include "initGame.h"
 #include "meteors.h"
+#include "menu.h"
 
-void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, Player* player, Meteors* smallMeteor, Meteors* mediumMeteor, Meteors* bigMeteor, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
+void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, Player* player, Meteors* smallMeteor, Meteors* mediumMeteor, Meteors* bigMeteor, Screen& screen, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
 {
     if (!gameOver)
     {
@@ -55,45 +56,45 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
             for (int i = 0; i < maxMediumMeteorCounter; i++)
             {
-                if (CheckCollisionCircles(Vector2 { player->collider.x, player->collider.y }, player->collider.z, mediumMeteor[i]->position, mediumMeteor[i]->radius) && mediumMeteor[i]->active) gameOver = true;
+                if (CheckCollisionCircles(Vector2 { player->collider.x, player->collider.y }, player->collider.z, mediumMeteor[i].position, mediumMeteor[i].radius) && mediumMeteor[i].active) gameOver = true;
             }
 
             for (int i = 0; i < maxSmallMeteorCounter; i++)
             {
-                if (CheckCollisionCircles(Vector2 { player->collider.x, player->collider.y }, player->collider.z, smallMeteor[i]->position, smallMeteor[i]->radius) && smallMeteor[i]->active) gameOver = true;
+                if (CheckCollisionCircles(Vector2 { player->collider.x, player->collider.y }, player->collider.z, smallMeteor[i].position, smallMeteor[i].radius) && smallMeteor[i].active) gameOver = true;
             }
 
             // Meteor logic
 
             for (int i = 0; i < maxMediumMeteorCounter; i++)
             {
-                if (mediumMeteor[i]->active)
+                if (mediumMeteor[i].active)
                 {
                     // movement
-                    mediumMeteor[i]->position.x += mediumMeteor[i]->speed.x;
-                    mediumMeteor[i]->position.y += mediumMeteor[i]->speed.y;
+                    mediumMeteor[i].position.x += mediumMeteor[i].speed.x;
+                    mediumMeteor[i].position.y += mediumMeteor[i].speed.y;
 
                     // wall behaviour
-                    if (mediumMeteor[i]->position.x > screenWidth + mediumMeteor[i]->radius) mediumMeteor[i]->position.x = -(mediumMeteor[i]->radius);
-                    else if (mediumMeteor[i]->position.x < 0 - mediumMeteor[i]->radius) mediumMeteor[i]->position.x = screenWidth + mediumMeteor[i]->radius;
-                    if (mediumMeteor[i]->position.y > screenHeight + mediumMeteor[i]->radius) mediumMeteor[i]->position.y = -(mediumMeteor[i]->radius);
-                    else if (mediumMeteor[i]->position.y < 0 - mediumMeteor[i]->radius) mediumMeteor[i]->position.y = screenHeight + mediumMeteor[i]->radius;
+                    if (mediumMeteor[i].position.x > screenWidth + mediumMeteor[i].radius) mediumMeteor[i].position.x = -(mediumMeteor[i].radius);
+                    else if (mediumMeteor[i].position.x < 0 - mediumMeteor[i].radius) mediumMeteor[i].position.x = screenWidth + mediumMeteor[i].radius;
+                    if (mediumMeteor[i].position.y > screenHeight + mediumMeteor[i].radius) mediumMeteor[i].position.y = -(mediumMeteor[i].radius);
+                    else if (mediumMeteor[i].position.y < 0 - mediumMeteor[i].radius) mediumMeteor[i].position.y = screenHeight + mediumMeteor[i].radius;
                 }
             }
 
             for (int i = 0; i < maxSmallMeteorCounter; i++)
             {
-                if (smallMeteor[i]->active)
+                if (smallMeteor[i].active)
                 {
                     // movement
-                    smallMeteor[i]->position.x += smallMeteor[i]->speed.x;
-                    smallMeteor[i]->position.y += smallMeteor[i]->speed.y;
+                    smallMeteor[i].position.x += smallMeteor[i].speed.x;
+                    smallMeteor[i].position.y += smallMeteor[i].speed.y;
 
                     // wall behaviour
-                    if (smallMeteor[i]->position.x > screenWidth + smallMeteor[i]->radius) smallMeteor[i]->position.x = -(smallMeteor[i]->radius);
-                    else if (smallMeteor[i]->position.x < 0 - smallMeteor[i]->radius) smallMeteor[i]->position.x = screenWidth + smallMeteor[i]->radius;
-                    if (smallMeteor[i]->position.y > screenHeight + smallMeteor[i]->radius) smallMeteor[i]->position.y = -(smallMeteor[i]->radius);
-                    else if (smallMeteor[i]->position.y < 0 - smallMeteor[i]->radius) smallMeteor[i]->position.y = screenHeight + smallMeteor[i]->radius;
+                    if (smallMeteor[i].position.x > screenWidth + smallMeteor[i].radius) smallMeteor[i].position.x = -(smallMeteor[i].radius);
+                    else if (smallMeteor[i].position.x < 0 - smallMeteor[i].radius) smallMeteor[i].position.x = screenWidth + smallMeteor[i].radius;
+                    if (smallMeteor[i].position.y > screenHeight + smallMeteor[i].radius) smallMeteor[i].position.y = -(smallMeteor[i].radius);
+                    else if (smallMeteor[i].position.y < 0 - smallMeteor[i].radius) smallMeteor[i].position.y = screenHeight + smallMeteor[i].radius;
                 }
             }
         }
@@ -102,8 +103,13 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
     {
         if (IsKeyPressed(KEY_ENTER))
         {
-            initGame();
+            initGame(screen);
             gameOver = false;
+        }
+        else if (IsKeyPressed(KEY_ESCAPE))
+        {
+            screen = Screen::menu;
+            menu(screen);
         }
     }
 

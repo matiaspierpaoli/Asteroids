@@ -16,9 +16,4 @@ public:
 	Vector3 collider;
 	Color color;
 
-	/*Player();
-	void update();*/
-
-
-
 };
