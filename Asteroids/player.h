@@ -4,15 +4,20 @@
 class Player
 {
 private:
-	int playerX;
-	int playerY;	
-	float playerSpeed;
-	float playerRadius;
+	
 
 public:
+	Vector2 position;
+	Vector2 speed;
+	float acceleration;
+	float rotation;
+	float size;
+	float height;
+	Vector3 collider;
+	Color color;
 
-	Player();
-	void update();
+	/*Player();
+	void update();*/
 
 
 

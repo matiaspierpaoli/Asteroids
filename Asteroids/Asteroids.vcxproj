@@ -151,25 +151,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="credits.cpp" />
+    <ClCompile Include="drawGame.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="howToPlay.cpp" />
     <ClCompile Include="initGame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="meteors.cpp" />
+    <ClCompile Include="resetGame.cpp" />
     <ClCompile Include="runGame.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="shoot.cpp" />
+    <ClCompile Include="updateDrawFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="credits.h" />
+    <ClInclude Include="drawGame.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="howToPlay.h" />
     <ClInclude Include="initGame.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="meteors.h" />
+    <ClInclude Include="resetGame.h" />
     <ClInclude Include="runGame.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="shoot.h" />
+    <ClInclude Include="updateDrawFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
