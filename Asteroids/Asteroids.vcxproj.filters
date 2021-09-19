@@ -48,6 +48,9 @@
     <ClCompile Include="resetGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="updateGame.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="runGame.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resetGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="updateGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,6 +14,8 @@ void initGame(Screen& screen)
 	const int maxMediumMeteorCounter = 8;
 	const int maxBigMeteorCounter = 4;
 
+	float PLAYER_SPEED = 6.0f;
+
 	Player* player;
 	vector<Shoot*> shoot;
 	Meteors* smallMeteor[maxSmallMeteorCounter] = { 0 };

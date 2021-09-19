@@ -4,8 +4,9 @@
 
 void resetGame(Player* player, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
 {
-	delete player;
 
+
+	/*player.clear();
 	for (int i = 0; i < maxSmallMeteorCounter; i++)
 	{
 		delete smallMeteor;
@@ -19,7 +20,7 @@ void resetGame(Player* player, int maxSmallMeteorCounter, int maxMediumMeteorCou
 	for (int i = 0; i < maxBigMeteorCounter; i++)
 	{
 		delete bigMeteor;
-	}
+	}*/
 
 	
 }
