@@ -14,6 +14,7 @@ typedef struct Player {
     Vector2 speed;
     float acceleration;
     float rotation;
+    float newRotation;
     Vector3 collider;
     Color color;
     int height;

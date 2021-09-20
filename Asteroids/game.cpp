@@ -54,9 +54,9 @@ void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallM
 	if (!gameOver)
 	{
 		// Draw spaceship
-		Vector2 v1 = { player.newPosition.x + sinf(player.rotation * DEG2RAD) * (shipHeight), player.newPosition.y - cosf(player.rotation * DEG2RAD) * (shipHeight) };
-		Vector2 v2 = { player.newPosition.x - cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y - sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
-		Vector2 v3 = { player.newPosition.x + cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y + sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
+		Vector2 v1 = { player.newPosition.x + sinf(player.newRotation * DEG2RAD) * (shipHeight), player.newPosition.y - cosf(player.newRotation * DEG2RAD) * (shipHeight) };
+		Vector2 v2 = { player.newPosition.x - cosf(player.newRotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y - sinf(player.newRotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
+		Vector2 v3 = { player.newPosition.x + cosf(player.newRotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y + sinf(player.newRotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
 		DrawTriangle(v1, v2, v3, RED);
 
 		// Draw meteor
@@ -81,7 +81,7 @@ void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallM
 			if (shoot[i].active) DrawCircleV(shoot[i].position, shoot[i].radius, RED);
 		}
 
-		if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
+		if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 30) / 2, screenHeight / 2 - 40, 30, WHITE);
 
 		
 		if (victory) DrawText("VICTORY", screenWidth / 2 - MeasureText("VICTORY", 20) / 2, screenHeight / 2, 20, LIGHTGRAY);
@@ -118,10 +118,10 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (player.height / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (player.height / 2.5f), 12 };
 
-			if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z) && IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+			if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z))
 			{
 				player.newPosition = player.position;
-
+				player.newRotation = player.rotation;
 				// Player logic
 
 				// Rotation   
@@ -140,20 +140,27 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 				player.rotation = angle; // Define rotation as the angle calculated before
 
+			}
+
+			if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+			{
 				// Speed
 				player.speed.x = sin(player.rotation * DEG2RAD) * PLAYER_SPEED;
-				player.speed.y = cos(player.rotation * DEG2RAD) * PLAYER_SPEED;				
-
+				player.speed.y = cos(player.rotation * DEG2RAD) * PLAYER_SPEED;
 			}
+			
+
 			player.position.x += (player.speed.x * player.acceleration);
 			player.position.y -= (player.speed.y * player.acceleration);
 			
+			player.newRotation = player.rotation;
 		
 			// Wall behaviour for player
 			if (player.position.x > screenWidth + player.height) player.position.x = -(player.height);
 			else if (player.position.x < -(player.height)) player.position.x = screenWidth + player.height;
 			else if (player.position.y > (screenHeight + player.height)) player.position.y = -(player.height);
 			else if (player.position.y < -(player.height)) player.position.y = screenHeight + player.height;
+						
 
 			player.newPosition.x = player.position.x;
 			player.newPosition.y = player.position.y;
@@ -353,8 +360,7 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 								smallMeteor[smallMeteorsCount].active = true;
 								smallMeteorsCount++;
-							}
-							//mediumMeteor[b].position = (Vector2){-100, -100};
+							}							
 							mediumMeteor[b].color = GREEN;
 							b = maxMediumMeteorCounter;
 						}
@@ -368,8 +374,7 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 							shoot[i].lifeSpawn = 0;
 							smallMeteor[c].active = false;
 							destroyedMeteorsCount++;
-							smallMeteor[c].color = YELLOW;
-							// smallMeteor[c].position = (Vector2){-100, -100};
+							smallMeteor[c].color = YELLOW;							
 							c = maxSmallMeteorCounter;
 						}
 					}
