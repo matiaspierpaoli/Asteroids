@@ -24,6 +24,12 @@ static Meteors bigMeteor[maxBigMeteorCounter] = { 0 };
 
 int framesCounter = 0;
 
+Vector2 posNave;
+Vector2 posMouse;
+Vector2 vectorDireccion;
+
+float angle = 0;
+
 bool correctRangeMeteors = false;
 bool isGameOver = false;
 bool victory = false;
@@ -95,11 +101,37 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
         {
             framesCounter++;
 
+			posMouse = GetMousePosition();
+			
+			vectorDireccion = { posMouse.x - player.position.x , posMouse.y - player.position.y };
+
+			angle = atan2f(vectorDireccion.y, vectorDireccion.x) * (180.0f / PI);
+			
+
+			if (vectorDireccion.y > 0 && vectorDireccion.x > 0)
+			{
+				angle += 90.0f;
+			}
+			else if (vectorDireccion.y > 0 && vectorDireccion.x < 0)
+			{
+				angle += 90.0f;
+			}
+			else if (vectorDireccion.y < 0 && vectorDireccion.x > 0)
+			{
+				angle += 90.0f;
+			}
+			else
+			{
+				angle += 90.0f;
+			}
+	
+			player.rotation = angle;
+
             // Player logic
 
             // Rotation
-            if (IsKeyDown(KEY_LEFT)) player.rotation -= 5;
-            if (IsKeyDown(KEY_RIGHT)) player.rotation += 5;
+           /* if (IsKeyDown(KEY_LEFT)) player.rotation -= 5;
+            if (IsKeyDown(KEY_RIGHT)) player.rotation += 5;*/
 
             // Speed
             player.speed.x = sin(player.rotation * DEG2RAD) * PLAYER_SPEED;
