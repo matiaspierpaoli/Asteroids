@@ -3,14 +3,14 @@
 #include "header.h"
 #include "menu.h"
 #include "credits.h"
-#include "initGame.h"
 #include "howToPlay.h"
+#include "player.h"
+#include <vector>
+#include "shoot.h"
+#include "meteors.h"
 
-
-int runGame()
+int runGame(Screen& screen)
 {
-	Screen screen;
-
 	initGame(screen);
 
 	while (!WindowShouldClose())

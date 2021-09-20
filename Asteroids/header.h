@@ -7,9 +7,24 @@ using namespace std;
 
 enum class Screen { menu, game, howToPlay, credits, close, finishedgame };
 
-// Set window's width and height
-const int screenWidth = 800;
-const int screenHeight = 400;
+typedef struct Player {
+    Vector2 position;
+    Vector2 speed;
+    float acceleration;
+    float rotation;
+    Vector3 collider;
+    Color color;
+    int height;
+} Player;
+
+typedef struct Meteors {
+    Vector2 position;
+    Vector2 speed;
+    float radius;
+    bool active;
+    Color color;
+} Meteors;
+
 
 
 

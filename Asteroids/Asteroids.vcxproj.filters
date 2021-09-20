@@ -15,9 +15,6 @@
     <ClCompile Include="runGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="initGame.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -39,16 +36,7 @@
     <ClCompile Include="meteors.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="drawGame.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="updateDrawFrame.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="resetGame.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="updateGame.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="initGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
@@ -81,18 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="meteors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="drawGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="updateDrawFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resetGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="updateGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
