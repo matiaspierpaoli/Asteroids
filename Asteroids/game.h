@@ -1,9 +1,11 @@
 #pragma once
 #include "header.h"
-#include "player.h"
-#include "meteors.h"
 
 static Screen screen;
+
+// Set window's width and height
+const int screenWidth = 800;
+const int screenHeight = 400;
 
 void game(Screen& screen);
 

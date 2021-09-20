@@ -56,7 +56,7 @@ void menu(Screen& screen)
 		if (IsKeyDown(KEY_ESCAPE))
 		{
 			screen = Screen::close;
-		}
+		}		
 
 		EndDrawing();
 

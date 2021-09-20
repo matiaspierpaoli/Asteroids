@@ -155,10 +155,7 @@
     <ClCompile Include="howToPlay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
-    <ClCompile Include="meteors.cpp" />
     <ClCompile Include="runGame.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="shoot.cpp" />
     <ClCompile Include="updateDrawFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,10 +164,7 @@
     <ClInclude Include="header.h" />
     <ClInclude Include="howToPlay.h" />
     <ClInclude Include="menu.h" />
-    <ClInclude Include="meteors.h" />
     <ClInclude Include="runGame.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="shoot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

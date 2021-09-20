@@ -7,6 +7,12 @@ Asteroids*/
 
 int main()
 {
+
+	InitWindow(screenWidth, screenHeight, "Asteroids");
+
+	SetTargetFPS(60);  // Set our game to run at 60 frames-per-second
+	//--------------------------------------------------------------------------------------
+
 	runGame(screen);
 
 	return 0;

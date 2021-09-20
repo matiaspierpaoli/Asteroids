@@ -26,6 +26,15 @@ typedef struct Meteors {
     Color color;
 } Meteors;
 
+typedef struct Shoot {
+    Vector2 position;
+    Vector2 speed;
+    float radius;
+    float rotation;
+    int lifeSpawn;
+    bool active;
+    Color color;
+} Shoot;
 
 
 
