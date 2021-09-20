@@ -10,6 +10,7 @@ enum class Screen { menu, game, howToPlay, credits, close, finishedgame };
 
 typedef struct Player {
     Vector2 position;
+    Vector2 newPosition;
     Vector2 speed;
     float acceleration;
     float rotation;

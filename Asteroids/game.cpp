@@ -54,9 +54,9 @@ void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallM
 	if (!gameOver)
 	{
 		// Draw spaceship
-		Vector2 v1 = { player.position.x + sinf(player.rotation * DEG2RAD) * (shipHeight), player.position.y - cosf(player.rotation * DEG2RAD) * (shipHeight) };
-		Vector2 v2 = { player.position.x - cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.position.y - sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
-		Vector2 v3 = { player.position.x + cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.position.y + sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
+		Vector2 v1 = { player.newPosition.x + sinf(player.rotation * DEG2RAD) * (shipHeight), player.newPosition.y - cosf(player.rotation * DEG2RAD) * (shipHeight) };
+		Vector2 v2 = { player.newPosition.x - cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y - sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
+		Vector2 v3 = { player.newPosition.x + cosf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2), player.newPosition.y + sinf(player.rotation * DEG2RAD) * (PLAYER_BASE_SIZE / 2) };
 		DrawTriangle(v1, v2, v3, RED);
 
 		// Draw meteor
@@ -83,16 +83,19 @@ void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallM
 
 		if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
 
+		
 		if (victory) DrawText("VICTORY", screenWidth / 2 - MeasureText("VICTORY", 20) / 2, screenHeight / 2, 20, LIGHTGRAY);
-
+		
 		DrawText(TextFormat("TIME: %.02f", (float)framesCounter / 60), 10, 10, 20, WHITE);
 
 	}
-	else
-	{				
+	else 
+	{ 
 		DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 20) / 2, screenHeight / 2, 20, LIGHTGRAY);
-		DrawText("Press ENTER to return to menu", GetScreenWidth() / 2 - 150, GetScreenHeight() - 50, 20, WHITE);							
+		DrawText("Press ENTER to return to menu", GetScreenWidth() / 2 - 150, GetScreenHeight() - 50, 20, WHITE);
 	}
+	
+	
 
 	EndDrawing();
 
@@ -115,9 +118,9 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (player.height / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (player.height / 2.5f), 12 };
 
-			if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z))
+			if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z) && IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
 			{
-				//posNave = player.position;
+				player.newPosition = player.position;
 
 				// Player logic
 
@@ -139,97 +142,21 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 				// Speed
 				player.speed.x = sin(player.rotation * DEG2RAD) * PLAYER_SPEED;
-				player.speed.y = cos(player.rotation * DEG2RAD) * PLAYER_SPEED;
-
-				normalizedDirection = vectorDirection;
-				//sumar aceleracion en esa direccion
-				//player.acceleration += (vectorDirection.x + vectorDirection.y);
-				//player.acceleration += normalizedDirection;
-
-				/*player.acceleration.x += {vectorDirection.x, vectorDirection.y};
-				player.acceleration.y += vectorDirection;*/
-
-
-				// Movement 
-				/*player.newPosition.x = posNave.x + player.acceleration.x;
-				player.newPosition.y = posNave.y + player.acceleration.y;*/
-
-				//// Movement
-				//player.position.x += player.acceleration.x;
-				//player.position.y -= player.acceleration.y;
-
-				// Movement
-				/*player.position.x += (player.speed.x * player.acceleration);
-				player.position.y -= (player.speed.y * player.acceleration);*/
-
-				/*if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z))
-				{
-					if (IsKeyPressed(MOUSE_LEFT_BUTTON))
-					{
-
-						player.position.x += (player.speed.x * player.acceleration) * 2;
-						player.position.y -= (player.speed.y * player.acceleration) * 2;
-
-					}
-					else
-					{
-
-						player.position.x += (player.speed.x * player.acceleration);
-						player.position.y -= (player.speed.y * player.acceleration);
-					}
-
-
-
-				}*/
-				if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
-				{
-					player.position.x += (player.speed.x * player.acceleration) * 2;
-					player.position.y -= (player.speed.y * player.acceleration) * 2;
-				}
-				else
-				{
-					player.position.x += (player.speed.x * player.acceleration);
-					player.position.y -= (player.speed.y * player.acceleration);
-				}
+				player.speed.y = cos(player.rotation * DEG2RAD) * PLAYER_SPEED;				
 
 			}
-
-
-
-
-
-
-			// Movement
-			/*if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z))
-			{
-
-			}*/
-
-
+			player.position.x += (player.speed.x * player.acceleration);
+			player.position.y -= (player.speed.y * player.acceleration);
+			
+		
 			// Wall behaviour for player
 			if (player.position.x > screenWidth + player.height) player.position.x = -(player.height);
 			else if (player.position.x < -(player.height)) player.position.x = screenWidth + player.height;
 			else if (player.position.y > (screenHeight + player.height)) player.position.y = -(player.height);
 			else if (player.position.y < -(player.height)) player.position.y = screenHeight + player.height;
 
-			/*if (player.position.x >= screenWidth)
-			{
-				player.position.x = -(player.height);
-			}
-			else if (player.position.x <= 0)
-			{
-				player.position.x = screenWidth + player.height;
-			}
-			else if (player.position.y >= screenHeight)
-			{
-				player.position.y = -(player.height);
-			}
-			else if (player.position.y <= 0)
-			{
-				player.position.y = screenHeight + player.height;
-			}*/
-
-
+			player.newPosition.x = player.position.x;
+			player.newPosition.y = player.position.y;
 
 			// Meteor logic
 
@@ -248,9 +175,6 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 					}
 				}
 			}
-
-
-
 
 			// Shoot life timer
 			for (int i = 0; i < maxPlayerShoots; i++)
@@ -303,7 +227,7 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 			// Collision logic: player vs meteors
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (shipHeight / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (shipHeight / 2.5f), 12 };
 
-			for (int a = 0; a < maxBigMeteorCounter; a++)
+			/*for (int a = 0; a < maxBigMeteorCounter; a++)
 			{
 				if (CheckCollisionCircles(Vector2 { player.collider.x, player.collider.y }, player.collider.z, bigMeteor[a].position, bigMeteor[a].radius) && bigMeteor[a].active) gameOver = true;
 			}
@@ -316,7 +240,7 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 			for (int a = 0; a < maxSmallMeteorCounter; a++)
 			{
 				if (CheckCollisionCircles(Vector2 { player.collider.x, player.collider.y }, player.collider.z, smallMeteor[a].position, smallMeteor[a].radius) && smallMeteor[a].active) gameOver = true;
-			}
+			}*/
 
 			// Meteors logic: big meteors
 			for (int i = 0; i < maxBigMeteorCounter; i++)
