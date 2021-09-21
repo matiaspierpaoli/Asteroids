@@ -143,13 +143,15 @@ void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCoun
 				gameFinished = true;
 			}
 
+			// Player logic
+
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (player.height / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (player.height / 2.5f), 12 };
 
 			if (!CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z))
 			{
 				player.newPosition = player.position;
 				player.newRotation = player.rotation;
-				// Player logic
+				
 
 				// Rotation   
 
@@ -371,8 +373,7 @@ void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCoun
 
 								mediumMeteor[midMeteorsCount].active = true;
 								midMeteorsCount++;
-							}
-							//bigMeteor[a].position = (Vector2){-100, -100};
+							}							
 							bigMeteor[a].color = RED;
 							a = maxBigMeteorCounter;
 						}
@@ -440,7 +441,6 @@ void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCoun
 		}
 	}
 
-	
 
 }
 
@@ -468,9 +468,6 @@ void initGame(Screen& screen)
 	victory = false;
 
 	framesCounter = 0;
-
-	/*int meteorsDestroyedCounter = 0;*/
-	
 
 	shipHeight = (PLAYER_BASE_SIZE / 2) / tanf(20 * DEG2RAD);
 
@@ -621,7 +618,5 @@ void unloadGame()
 	UnloadMusicStream(music);   // Unload music stream buffers from RAM
 
 	CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
-
-	
 
 }
