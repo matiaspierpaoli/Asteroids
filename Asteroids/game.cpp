@@ -2,7 +2,7 @@
 #include "menu.h"
 
 #define PLAYER_BASE_SIZE  20.0f
-#define METEORS_SPEED    1.5f
+#define METEORS_SPEED   3.0f 
 float PLAYER_SPEED = 3.0f;
 
 
@@ -35,23 +35,24 @@ static int destroyedMeteorsCount = 0;
 bool correctRangeMeteors = false;
 bool gameOver = false;
 bool victory = false;
+bool gameFinished = false;
 bool pause = false;
 
 
 void game(Screen& screen)
 {	
-	updateDrawFrame(gameOver, pause, framesCounter, PLAYER_SPEED, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
+	updateDrawFrame(gameFinished, gameOver, pause, framesCounter, PLAYER_SPEED, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
 	
 }
 
-void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallMeteorCounter, const int maxMediumMeteorCounter, const int maxBigMeteorCounter)
+void drawGame(bool& gameFinished, bool& gameOver, bool pause, int framesCounter, const int maxSmallMeteorCounter, const int maxMediumMeteorCounter, const int maxBigMeteorCounter)
 {
 	
 	BeginDrawing();
 
 	ClearBackground(BLACK);
 
-	if (!gameOver)
+	if (!gameFinished)
 	{
 		// Draw spaceship
 		Vector2 v1 = { player.newPosition.x + sinf(player.newRotation * DEG2RAD) * (shipHeight), player.newPosition.y - cosf(player.newRotation * DEG2RAD) * (shipHeight) };
@@ -83,27 +84,23 @@ void drawGame(bool& gameOver, bool pause, int framesCounter, const int maxSmallM
 
 		if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 30) / 2, screenHeight / 2 - 40, 30, WHITE);
 
-		
-		if (victory) DrawText("VICTORY", screenWidth / 2 - MeasureText("VICTORY", 20) / 2, screenHeight / 2, 20, LIGHTGRAY);
-		
 		DrawText(TextFormat("TIME: %.02f", (float)framesCounter / 60), 10, 10, 20, WHITE);
 
 	}
 	else 
 	{ 
-		DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 20) / 2, screenHeight / 2, 20, LIGHTGRAY);
+		if (victory) DrawText("VICTORY", screenWidth / 2 - MeasureText("VICTORY", 20) / 2, screenHeight / 2, 20, WHITE);
+		if (gameOver) DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 20) / 2, screenHeight / 2, 20, WHITE);
 		DrawText("Press ENTER to return to menu", GetScreenWidth() / 2 - 150, GetScreenHeight() - 50, 20, WHITE);
 	}
 	
-	
-
 	EndDrawing();
 
 }
 
-void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
+void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
 {
-	if (!gameOver)
+	if (!gameFinished)
 	{
 		if (IsKeyPressed('P')) pause = !pause;
 
@@ -111,9 +108,10 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 		{
 			framesCounter++;
 
-			if (framesCounter == 30 * 60)
+			if (framesCounter == 60 * 60 && !victory)
 			{
 				victory = true;
+				gameFinished = true;
 			}
 
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (player.height / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (player.height / 2.5f), 12 };
@@ -142,25 +140,25 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 			}
 
-			if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+			if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON && !CheckCollisionPointCircle(GetMousePosition(), player.position, player.collider.z)))
 			{
 				// Speed
 				player.speed.x = sin(player.rotation * DEG2RAD) * PLAYER_SPEED;
 				player.speed.y = cos(player.rotation * DEG2RAD) * PLAYER_SPEED;
 			}
-			
 
-			player.position.x += (player.speed.x * player.acceleration);
-			player.position.y -= (player.speed.y * player.acceleration);
-			
+
+			player.position.x += (player.speed.x * player.acceleration * GetFrameTime());
+			player.position.y -= (player.speed.y * player.acceleration * GetFrameTime());
+
 			player.newRotation = player.rotation;
-		
+
 			// Wall behaviour for player
 			if (player.position.x > screenWidth + player.height) player.position.x = -(player.height);
 			else if (player.position.x < -(player.height)) player.position.x = screenWidth + player.height;
 			else if (player.position.y > (screenHeight + player.height)) player.position.y = -(player.height);
 			else if (player.position.y < -(player.height)) player.position.y = screenHeight + player.height;
-						
+
 
 			player.newPosition.x = player.position.x;
 			player.newPosition.y = player.position.y;
@@ -234,21 +232,36 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 			// Collision logic: player vs meteors
 			player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (shipHeight / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (shipHeight / 2.5f), 12 };
 
-			/*for (int a = 0; a < maxBigMeteorCounter; a++)
+			for (int a = 0; a < maxBigMeteorCounter; a++)
 			{
-				if (CheckCollisionCircles(Vector2 { player.collider.x, player.collider.y }, player.collider.z, bigMeteor[a].position, bigMeteor[a].radius) && bigMeteor[a].active) gameOver = true;
+				if (CheckCollisionCircles(Vector2{ player.collider.x, player.collider.y }, player.collider.z, bigMeteor[a].position, bigMeteor[a].radius) && bigMeteor[a].active)
+				{
+					gameFinished = true;
+					gameOver = true;
+				}
 			}
 
 			for (int a = 0; a < maxMediumMeteorCounter; a++)
 			{
-				if (CheckCollisionCircles(Vector2 { player.collider.x, player.collider.y }, player.collider.z, mediumMeteor[a].position, mediumMeteor[a].radius) && mediumMeteor[a].active) gameOver = true;
+				if (CheckCollisionCircles(Vector2{ player.collider.x, player.collider.y }, player.collider.z, mediumMeteor[a].position, mediumMeteor[a].radius) && mediumMeteor[a].active)
+				{
+					gameFinished = true;
+					gameOver = true;
+				}
 			}
-
-			for (int a = 0; a < maxSmallMeteorCounter; a++)
+			
+			for (int a = 0; a < maxMediumMeteorCounter; a++)
 			{
-				if (CheckCollisionCircles(Vector2 { player.collider.x, player.collider.y }, player.collider.z, smallMeteor[a].position, smallMeteor[a].radius) && smallMeteor[a].active) gameOver = true;
-			}*/
-
+				for (int a = 0; a < maxSmallMeteorCounter; a++)
+				{
+					if (CheckCollisionCircles(Vector2{ player.collider.x, player.collider.y }, player.collider.z, smallMeteor[a].position, smallMeteor[a].radius) && smallMeteor[a].active)
+					{
+						gameFinished = true;
+						gameOver = true;
+					}
+				}
+			}
+			
 			// Meteors logic: big meteors
 			for (int i = 0; i < maxBigMeteorCounter; i++)
 			{
@@ -360,7 +373,7 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 
 								smallMeteor[smallMeteorsCount].active = true;
 								smallMeteorsCount++;
-							}							
+							}
 							mediumMeteor[b].color = GREEN;
 							b = maxMediumMeteorCounter;
 						}
@@ -374,31 +387,35 @@ void updateGame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SP
 							shoot[i].lifeSpawn = 0;
 							smallMeteor[c].active = false;
 							destroyedMeteorsCount++;
-							smallMeteor[c].color = YELLOW;							
+							smallMeteor[c].color = YELLOW;
 							c = maxSmallMeteorCounter;
 						}
 					}
 				}
 			}
-		}
+			
 
-		if (destroyedMeteorsCount == maxBigMeteorCounter + maxMediumMeteorCounter + maxSmallMeteorCounter) victory = true;
+			if (destroyedMeteorsCount == maxBigMeteorCounter + maxMediumMeteorCounter + maxSmallMeteorCounter)
+			{
+				gameFinished = true;
+				victory = true;
+			}
+		}
+	
 	}
 	else
 	{
 		if (IsKeyPressed(KEY_ENTER))
 		{
-			runGame(screen);			
+			runGame(screen);
 		}
 	}
-
-	
 }
 
-void updateDrawFrame(bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
+void updateDrawFrame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
 {	
-	updateGame(gameOver, pause, framesCounter, PLAYER_SPEED, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
-	drawGame(gameOver, pause, framesCounter, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
+	updateGame(gameFinished, gameOver, pause, framesCounter, PLAYER_SPEED, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
+	drawGame(gameFinished, gameOver, pause, framesCounter, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
 	
 }
 
@@ -412,8 +429,9 @@ void initGame(Screen& screen)
 	float velX;
 	float velY;
 
-	const float meteorsSpeed = 1.5f;
+	const float meteorsSpeed = 2.0f;
 
+	gameFinished = false;
 	gameOver = false;
 	victory = false;
 
@@ -426,7 +444,7 @@ void initGame(Screen& screen)
 
 	player.position = Vector2{ screenWidth / 2, screenHeight / 2 - shipHeight / 2 };
 	player.speed = Vector2{ 0, 0 };
-	player.acceleration = 1;
+	player.acceleration = 50;
 	player.rotation = 0;
 	player.collider = Vector3{ player.position.x + sin(player.rotation * DEG2RAD) * (shipHeight / 2.5f), player.position.y - cos(player.rotation * DEG2RAD) * (shipHeight / 2.5f), 12 };
 	player.color = LIGHTGRAY;

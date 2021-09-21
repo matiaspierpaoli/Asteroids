@@ -12,7 +12,7 @@ void howToPlay(Screen& screen)
 
 		DrawText(FormatText("Asteroids is a simple game where a ship must avoid crashing with tons of asteroids."), 15, 110, 19, RED);
 		DrawText(FormatText("You are given the possibility to shoot to break this rocks into smaller pieces."), 15, 140, 19, RED);
-		DrawText(FormatText("You win if you survive 30 seconds or break all asteroids."), 15, 170, 20, RED);
+		DrawText(FormatText("You win if you survive 60 seconds or break all asteroids."), 15, 170, 20, RED);
 		DrawText(FormatText("Right mouse button to move - Left mouse button to shoot."), 15, 200, 20, RED);
 		DrawText(FormatText("P to pause"), 15, 230, 20, RED);
 
