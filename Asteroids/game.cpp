@@ -1,5 +1,6 @@
 #include "game.h"
 #include "menu.h"
+#include "runGame.h"
 
 #define PLAYER_BASE_SIZE  20.0f
 #define METEORS_SPEED   3.0f 

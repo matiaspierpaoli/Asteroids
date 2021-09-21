@@ -3,8 +3,9 @@
 #include "menu.h"
 #include "credits.h"
 #include "howToPlay.h"
+#include "runGame.h"
 
-int runGame(Screen& screen)
+void runGame(Screen& screen)
 {
 	initGame(screen);
 
@@ -25,7 +26,7 @@ int runGame(Screen& screen)
 			credits(screen);
 			break;
 		case Screen::close:			
-			return 0;			
+			CloseWindow();
 			break;
 		default:
 			break;
@@ -33,5 +34,5 @@ int runGame(Screen& screen)
 	}
 
 	
-	return 0;
+	/*return 0;*/
 }
