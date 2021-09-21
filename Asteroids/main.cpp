@@ -10,6 +10,10 @@ int main()
 
 	InitWindow(screenWidth, screenHeight, "Asteroids");
 
+	InitAudioDevice();
+
+	
+
 	SetTargetFPS(60);  // Set our game to run at 60 frames-per-second
 	//--------------------------------------------------------------------------------------
 

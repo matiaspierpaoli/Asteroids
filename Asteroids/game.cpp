@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "menu.h"
 #include "runGame.h"
 
@@ -39,9 +39,16 @@ bool victory = false;
 bool gameFinished = false;
 bool pause = false;
 
+float timePlayed = 0.0f;
+bool musicPause = false;
+
+Music music = LoadMusicStream("resources/Black Clover Opening 7 Full『JUSTadICE』by Seiko Oomori _ Lyrics.ogg");
+
+
 
 void game(Screen& screen)
 {	
+	PlayMusicStream(music);
 	updateDrawFrame(gameFinished, gameOver, pause, framesCounter, PLAYER_SPEED, maxSmallMeteorCounter, maxMediumMeteorCounter, maxBigMeteorCounter);
 	
 }
@@ -101,6 +108,27 @@ void drawGame(bool& gameFinished, bool& gameOver, bool pause, int framesCounter,
 
 void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
 {
+	UpdateMusicStream(music);   // Update music buffer with new stream data
+
+	// Restart music playing (stop and play)
+	if (IsKeyPressed(KEY_M))
+	{
+		StopMusicStream(music);
+		PlayMusicStream(music);
+	}
+
+	// Pause/Resume music playing
+	if (IsKeyPressed(KEY_T))
+	{
+		musicPause = !musicPause;
+
+		if (musicPause) PauseMusicStream(music);
+		else ResumeMusicStream(music);
+	}
+	// Get timePlayed scaled to bar dimensions (400 pixels)
+	timePlayed = GetMusicTimePlayed(music) / GetMusicTimeLength(music) * 400;
+	if (timePlayed > 400) StopMusicStream(music);
+
 	if (!gameFinished)
 	{
 		if (IsKeyPressed('P')) pause = !pause;
@@ -411,6 +439,9 @@ void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCoun
 			runGame(screen);
 		}
 	}
+
+	
+
 }
 
 void updateDrawFrame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter)
@@ -585,25 +616,12 @@ void initGame(Screen& screen)
 
 }
 
-void resetGame()
+void unloadGame()
 {
+	UnloadMusicStream(music);   // Unload music stream buffers from RAM
 
+	CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
 
-	/*player.clear();
-	for (int i = 0; i < maxSmallMeteorCounter; i++)
-	{
-		delete smallMeteor;
-	}
-
-	for (int i = 0; i < maxMediumMeteorCounter; i++)
-	{
-		delete mediumMeteor;
-	}
-
-	for (int i = 0; i < maxBigMeteorCounter; i++)
-	{
-		delete bigMeteor;
-	}*/
-
+	
 
 }

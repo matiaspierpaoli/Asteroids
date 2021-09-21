@@ -29,7 +29,6 @@ void menu(Screen& screen)
 
 	while (!WindowShouldClose() && screen == Screen::menu)
 	{
-
 		BeginDrawing();
 		ClearBackground(BLACK);
 
@@ -53,10 +52,6 @@ void menu(Screen& screen)
 		if (CheckCollisionPointRec(GetMousePosition(), creditsButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) screen = Screen::credits;
 		if (CheckCollisionPointRec(GetMousePosition(), closeButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) screen = Screen::close;
 
-		if (IsKeyDown(KEY_ESCAPE))
-		{
-			screen = Screen::close;
-		}
 
 		EndDrawing();
 

@@ -25,14 +25,14 @@ void runGame(Screen& screen)
 		case Screen::credits:
 			credits(screen);
 			break;
-		case Screen::close:			
-			CloseWindow();
+		case Screen::close:	
+			unloadGame();
+			CloseWindow();		
 			break;
 		default:
 			break;
 		}
 	}
 
-	
-	/*return 0;*/
+
 }

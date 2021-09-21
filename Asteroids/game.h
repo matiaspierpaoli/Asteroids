@@ -13,4 +13,4 @@ void drawGame(bool& gameFinished, bool& gameOver, bool pause, int framesCounter,
 void updateGame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter);
 void updateDrawFrame(bool& gameFinished, bool& gameOver, bool& pause, int& framesCounter, float PLAYER_SPEED, int maxSmallMeteorCounter, int maxMediumMeteorCounter, int maxBigMeteorCounter);
 void initGame(Screen& screenId);
-void resetGame();
+void unloadGame();
